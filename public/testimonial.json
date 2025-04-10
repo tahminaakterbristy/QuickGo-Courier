@@ -1,0 +1,51 @@
+[
+    {
+      "id": 1,
+      "name": "John Doe",
+      "role": "Customer",
+      "location": "New York",
+      "testimonial": "This courier service is amazing! They delivered my parcel on time and the customer support was exceptional.",
+      "image": "https://randomuser.me/api/portraits/men/32.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Sarah Smith",
+      "role": "Business Owner",
+      "location": "London",
+      "testimonial": "I have been using this courier service for years and I am always satisfied with their services. Highly recommend!",
+      "image": "https://randomuser.me/api/portraits/women/44.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Michael Johnson",
+      "role": "Entrepreneur",
+      "location": "San Francisco",
+      "testimonial": "The delivery was quick and the packaging was secure. It’s rare to find such a reliable service.",
+      "image": "https://randomuser.me/api/portraits/men/22.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Michael Johnson",
+      "role": "Entrepreneur",
+      "location": "San Francisco",
+      "testimonial": "The delivery was quick and the packaging was secure. It’s rare to find such a reliable service.",
+      "image": "https://randomuser.me/api/portraits/men/22.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Michael Johnson",
+      "role": "Entrepreneur",
+      "location": "San Francisco",
+      "testimonial": "The delivery was quick and the packaging was secure. It’s rare to find such a reliable service.",
+      "image": "https://randomuser.me/api/portraits/men/22.jpg"
+    },
+    {
+      "id": 3,
+      "name": "Michael Johnson",
+      "role": "Entrepreneur",
+      "location": "San Francisco",
+      "testimonial": "The delivery was quick and the packaging was secure. It’s rare to find such a reliable service.",
+      "image": "https://randomuser.me/api/portraits/men/22.jpg"
+    }
+  ]
+  

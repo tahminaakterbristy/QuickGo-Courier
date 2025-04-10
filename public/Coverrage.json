@@ -1,0 +1,26 @@
+[
+    {
+      "area": "ঢাকা",
+      "serviceType": "Same Day",
+      "deliveryTime": "4-6 ঘণ্টা",
+      "charge": 70
+    },
+    {
+      "area": "চট্টগ্রাম",
+      "serviceType": "Next Day",
+      "deliveryTime": "24 ঘণ্টা",
+      "charge": 120
+    },
+    {
+      "area": "রাজশাহী",
+      "serviceType": "Regular",
+      "deliveryTime": "২-৩ দিন",
+      "charge": 100
+    },
+    {
+      "area": "খুলনা",
+      "serviceType": "Regular",
+      "deliveryTime": "২ দিন",
+      "charge": 100
+    }
+  ]

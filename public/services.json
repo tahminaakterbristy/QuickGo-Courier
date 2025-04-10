@@ -1,0 +1,45 @@
+[
+    {
+      "id": 1,
+      "title": "Same Day Delivery",
+      "description": "Quick delivery within the same day inside city area.",
+      "icon": "https://i.ibb.co.com/LzMbJp2T/delivery-truck.png",
+      "route": "/services/same-day"
+    },
+    {
+      "id": 2,
+      "title": "Nationwide Delivery",
+      "description": "Send parcels to any district within 24-48 hours.",
+      "icon": "https://i.ibb.co.com/1W8gcVf/all-embracing.png",
+      "route": "/services/nationwide"
+    },
+    {
+      "id": 3,
+      "title": "Cash on Delivery",
+      "description": "We collect payment from your customers upon delivery.",
+      "icon": "https://i.ibb.co.com/d0xjWLvM/truck.png",
+      "route": "/services/cod"
+    },
+    {
+      "id": 4,
+      "title": "Parcel Tracking",
+      "description": "Track your parcel with a unique ID anytime.",
+      "icon": "https://i.ibb.co.com/kV8v29HJ/parcel.png",
+      "route": "/services/tracking"
+    },
+    {
+      "id": 5,
+      "title": "Fragile Items Delivery",
+      "description": "Safe delivery for electronics and breakables.",
+      "icon": "https://i.ibb.co.com/Ndps5mqP/box.png",
+      "route": "/services/fragile"
+    },
+    {
+      "id": 6,
+      "title": "Bulk Delivery",
+      "description": "Affordable bulk shipment for businesses.",
+      "icon": "https://i.ibb.co.com/dsbgH6vW/packages.png",
+      "route": "/services/bulk"
+    }
+  ]
+  

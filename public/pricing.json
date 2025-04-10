@@ -1,0 +1,41 @@
+[
+    {
+      "id": 1,
+      "title": "Express Delivery",
+      "description": "Fast and reliable delivery within 24 hours.",
+      "price": "10",
+      "duration": "1 Day",
+      "features": [
+        "Trackable",
+        "24/7 Support",
+        "Guaranteed Delivery",
+        "Free Pickup"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Regular Delivery",
+      "description": "Standard delivery with a 3-5 days window.",
+      "price": "5",
+      "duration": "3-5 Days",
+      "features": [
+        "Trackable",
+        "Standard Support",
+        "On-time Delivery",
+        "Free Pickup"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Economy Delivery",
+      "description": "Affordable delivery for non-urgent shipments.",
+      "price": "2",
+      "duration": "5-7 Days",
+      "features": [
+        "Trackable",
+        "Basic Support",
+        "Economical"
+      ]
+    }
+  ]
+  
