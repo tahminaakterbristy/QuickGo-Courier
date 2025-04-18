@@ -2,7 +2,7 @@
 
 **Live Site**: https://quickgooo.netlify.app/
 
-## 📦 About The Project
+## About The Project
 
 **QuickGo Courier** is a modern, responsive courier service platform built with **React.js** and **Tailwind CSS**. It offers real-time parcel tracking, delivery zone visualization, and a user-friendly interface designed for speed, clarity, and customer trust.
 
