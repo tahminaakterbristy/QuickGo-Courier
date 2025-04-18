@@ -1,44 +1,39 @@
-live link: https://quickgooo.netlify.app/
+# 🚚 QuickGo Courier
 
-A modern, responsive courier service platform built with React and Tailwind CSS. From real-time parcel tracking to delivery zone visualization, SwiftCourier is designed for speed, clarity, and customer trust.
-Built With:React.js,Tailwind CSS,DaisyUI,React Icons / Framer Motion (for animations),Mobile-first responsive design approach
+**Live Site**: https://quickgooo.netlify.app/
 
-Features
-Navigation (Navbar)
-Responsive navbar with logo, menu links, and user profile dropdown
-Conditional rendering based on login state (Join Us / Profile Image with dropdown)
+## 📦 About The Project
 
-Hero Banner
-Clean banner with search functionality
-Parcel tracking input (via JSON-based fetch or loader)
-Engaging design with call-to-action
+**QuickGo Courier** is a modern, responsive courier service platform built with **React.js** and **Tailwind CSS**. It offers real-time parcel tracking, delivery zone visualization, and a user-friendly interface designed for speed, clarity, and customer trust.
 
-Routing System
-React Router-based page transitions
-Protected routes for secured pages (e.g., Dashboard, Estate Details)
+## Technologies Used
 
-Authentication
-Login and Sign Up pages using Firebase Authentication
-Profile updates via updateProfile()
+-  React.js
+-  Tailwind CSS
+-  DaisyUI
+-  React Icons
+-  Framer Motion (for animations)
+-  Vite
 
-Testimonials
-Responsive layout for real customer feedback
-Stylish cards with clean design
+##  Features
 
-Coverage Area
-Static map of Bangladesh with location-wise service info
-Accordion UI with location filters (e.g., load-shedding zones)
-Mobile-friendly design
+- **Responsive Navigation Bar**: Includes logo, menu links, and user profile dropdown with conditional rendering based on login state.
+- **Hero Banner**: Clean banner with search functionality and parcel tracking input.
+- **Real-time Parcel Tracking**: Fetches data via JSON-based fetch or loader.
+- **Delivery Zone Visualization**: Interactive maps showing delivery zones.
+- **Mobile-first Design**: Ensures optimal viewing experience across devices.
 
-Why Choose Us
-Grid layout with premium UI
-Animation: Cards slide from both sides using Framer Motion
-Feature highlights like fast delivery, secured parcels, 24/7 support
 
-Footer
-Green-themed, brand-matching design
-Quick links, contact info, and social media icons
-Dynamic copyright year
+##  Getting Started
+
+To run this project locally:
+
+```bash
+git clone https://github.com/tahminaakterbristy/QuickGo-Courier.git
+cd QuickGo-Courier
+npm install
+npm run dev
+
 
 
 
