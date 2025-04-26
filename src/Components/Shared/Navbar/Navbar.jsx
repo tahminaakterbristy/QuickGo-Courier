@@ -1,94 +1,100 @@
-
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../AuthProvider/AuthProvider";
 
 const Navbar = () => {
-//   const { user, logOut } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
 
-//   const handleSignOut = () => {
-//     logOut()
-//       .then(() => {})
-//       .catch(() => {});
-//   };
+  const handleSignOut = () => {
+    logOut().then(() => {}).catch(() => {});
+  };
 
   const navLinks = (
     <>
-      <li><NavLink to="/" className="hover:text-green-600">Home</NavLink></li>
-      <li><NavLink to="/about" className="hover:text-green-600">About</NavLink></li>
-      <li><NavLink to="/contact" className="hover:text-green-600">Contact</NavLink></li>
-      <li><NavLink to="/coverage" className="hover:text-green-600">Coverage Area</NavLink></li>
-      <li><NavLink to="/join" className="hover:text-green-600">Join Us As Merchant</NavLink></li>
-      <li><NavLink to="/login" className="hover:text-green-600">Log in</NavLink></li>
+      <li><NavLink to="/" className="nav-link">Home</NavLink></li>
+
+      <li><NavLink to="/coverage" className="nav-link">Coverage Area</NavLink></li>
+      <li><NavLink to="/register" className="nav-link">Join Us As Merchant</NavLink></li>
+      <li><NavLink to="/add-parcel" className="nav-link">Add A Parcel</NavLink></li>
+      <li><NavLink to="/my-percels" className="nav-link">My Parcels</NavLink></li>
     </>
   );
 
   return (
-    <div className="navbar bg-white shadow-md px-5 md:px-10">
-      {/* Mobile Menu */}
-      <div className="dropdown">
-        <label tabIndex={0} className="btn btn-ghost lg:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
-            viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-              d="M4 6h16M4 12h8m-8 6h16" />
-          </svg>
-        </label>
-        <ul tabIndex={0}
-          className="menu menu-sm dropdown-content mt-3 z-[50] p-4 shadow-lg bg-white text-gray-800 rounded-box w-60">
-          {navLinks}
-          {/* <div className="mt-4">
+    <div className="navbar bg-white shadow-md px-5 md:px-10 py-4 fixed top-0 left-0 right-0 z-50">
+      {/* Mobile View */}
+      <div className="navbar-start lg:hidden">
+        <div className="dropdown">
+          <label tabIndex={0} className="btn btn-ghost">
+            <svg className="w-7 h-7 text-green-600" fill="none" stroke="currentColor" strokeWidth="2"
+              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </label>
+          <ul tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[50] p-4 shadow-lg bg-white text-gray-800 rounded-xl w-64 space-y-3">
+            {navLinks}
             {user ? (
-              <div className="flex flex-col items-center gap-2">
-                <img src={user.photoURL}
-                  className="w-10 h-10 rounded-full border-2 border-green-600"
-                  alt="User" />
+              <div className="mt-4 flex flex-col items-center gap-2 border-t pt-4">
+                <img src={user.photoURL} alt="User"
+                  className="w-10 h-10 rounded-full border-2 border-green-600" />
                 <p className="text-sm font-semibold">{user.displayName}</p>
                 <button onClick={handleSignOut}
-                  className="btn btn-sm btn-outline btn-success w-full">
+                  className="btn btn-sm bg-gradient-to-r from-green-400 to-green-700 text-white border-none hover:scale-105 transition">
                   Sign Out
                 </button>
               </div>
             ) : (
-              <Link to="/login">
-                <button className="btn btn-outline btn-success w-full">Log In</button>
+              <Link to="/login" className="w-full">
+                <button className="btn btn-success btn-sm w-full text-white">Log In</button>
               </Link>
             )}
-          </div> */}
-        </ul>
+          </ul>
+        </div>
       </div>
 
-      {/* Logo */}
-      <div className="flex-1">
-        <Link to="/" className="btn btn-ghost normal-case text-2xl font-bold text-[#2D6A4F]">QuickGoo</Link>
-      </div>
-
-      {/* Desktop Menu */}
-      <div className="hidden lg:flex flex-1 justify-center">
-        <ul className="menu menu-horizontal px-1 space-x-4">
-          {navLinks}
-        </ul>
-      </div>
-
-      {/* User Info / Auth Button */}
-      {/* <div className="flex-none">
-        {user ? (
-          <div className="flex items-center gap-3">
-            <img src={user.photoURL}
-              className="w-10 h-10 rounded-full border-2 border-green-600"
-              alt="User" />
-            <div className="flex-col hidden md:flex items-end">
-              <p className="text-sm font-medium">{user.displayName}</p>
-              <button onClick={handleSignOut}
-                className="btn btn-sm btn-outline btn-success mt-1">
-                Sign Out
-              </button>
-            </div>
-          </div>
-        ) : (
-          <Link to="/login">
-            <button className="btn btn-outline btn-success">Log In</button>
+      {/* Desktop View */}
+      <div className="hidden lg:flex flex-1 items-center justify-between w-full">
+       
+        <div className="flex items-center gap-10">
+          <Link to="/" className="text-3xl font-bold bg-gradient-to-r from-green-500 to-green-700 text-transparent bg-clip-text">
+            Quick<span className="text-green-400">Goo</span>
           </Link>
-        )}
-      </div> */}
+          <ul className="menu menu-horizontal gap-5 text-[16px] font-medium">
+            {navLinks}
+          </ul>
+        </div>
+
+        {/* Right Section - User Info */}
+        <div className="flex items-center space-x-4">
+          {user ? (
+            <>
+              <div className="relative group">
+                <Link to="/update-profile">
+                <img src={user.photoURL} alt="User"
+                  className="w-10 h-10 rounded-full border-2 border-green-500 group-hover:scale-105 transition" />
+                <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-2 py-[1px] rounded-full shadow">✓</span>
+                </Link>
+              </div>
+              <div className="flex flex-col text-end">
+              
+               <p className="text-sm font-semibold">{user.displayName}</p>
+                <button onClick={handleSignOut}
+                  className="btn btn-sm bg-gradient-to-r from-green-400 to-green-700 text-white border-none hover:scale-105 transition">
+                  Sign Out
+                </button>
+              </div>
+            </>
+          ) : (
+            <Link to="/login">
+              <button className="btn btn-sm border border-green-600 text-green-600 hover:bg-green-600 hover:text-white transition">
+                Log In
+              </button>
+            </Link>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

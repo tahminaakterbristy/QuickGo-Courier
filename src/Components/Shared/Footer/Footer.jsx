@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
         {/* Column 1: Company Info */}
         <div>
-          <h3 className="text-3xl font-bold mb-4">Company Name</h3>
+          <h3 className="text-3xl font-bold mb-4">QuickGoo</h3>
           <p className="text-lg">
             Providing exceptional delivery services nationwide. Your parcels are in safe hands.
           </p>
@@ -17,8 +17,8 @@ const Footer = () => {
           <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
           <ul>
             <li><a href="#" className="text-gray-300 hover:text-white">Home</a></li>
-            <li><a href="#" className="text-gray-300 hover:text-white">About Us</a></li>
-            <li><a href="#" className="text-gray-300 hover:text-white">Services</a></li>
+            <li><a href="/about-us" className="text-gray-300 hover:text-white">About Us</a></li>
+            <li><a href="/services" className="text-gray-300 hover:text-white">Services</a></li>
             <li><a href="#" className="text-gray-300 hover:text-white">Contact</a></li>
             <li><a href="#" className="text-gray-300 hover:text-white">FAQs</a></li>
           </ul>

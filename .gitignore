@@ -22,3 +22,38 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# dependencies
+/node_modules
+
+# production
+/build
+/dist
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# firebase emulators / hosting
+.firebase/
+firestore.indexes.json
+firestore.rules
+storage.rules
+*.firebase
+
+
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+
+# Optional npm cache directory
+.npm/
+
+# others
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

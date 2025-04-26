@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FaStar } from "react-icons/fa";
 
-const AutoScrollTestimonial = () => {
+const Testimonial = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef(null);
@@ -18,11 +18,11 @@ const AutoScrollTestimonial = () => {
     intervalRef.current = setInterval(() => {
       setActiveIndex((prev) => {
         const nextIndex = (prev + 1) % testimonials.length;
-        const scrollPosition = nextIndex * 350; // Approx card width
+        const scrollPosition = nextIndex * 350;
         scrollRef.current.scrollTo({ left: scrollPosition, behavior: "smooth" });
         return nextIndex;
       });
-    }, 1000);
+    }, 3000); // Scroll every 3 seconds
   };
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const AutoScrollTestimonial = () => {
       >
         {testimonials.map((t, index) => (
           <div
-            key={t.id}
+            key={`${t.id}-${index}`}
             className={`min-w-[300px] md:min-w-[350px] bg-white rounded-xl shadow-md p-6 transition-all duration-300 ${
               activeIndex === index ? "scale-105 shadow-xl" : ""
             }`}
@@ -75,10 +75,10 @@ const AutoScrollTestimonial = () => {
       </div>
 
       {/* Dots Indicator */}
-      <div className="flex justify-center mt-6 gap-2">
+      <div className="flex justify-center space-x-2 mt-6">
         {testimonials.map((_, i) => (
           <div
-            key={i}
+            key={`dot-${i}`}
             className={`w-3 h-3 rounded-full ${
               i === activeIndex ? "bg-green-500" : "bg-gray-300"
             } transition-all duration-300`}
@@ -89,4 +89,4 @@ const AutoScrollTestimonial = () => {
   );
 };
 
-export default AutoScrollTestimonial;
+export default Testimonial;
