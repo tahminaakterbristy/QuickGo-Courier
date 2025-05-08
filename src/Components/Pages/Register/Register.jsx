@@ -3,6 +3,7 @@ import { AuthContext } from "../../AuthProvider/AuthProvider";
 import { updateProfile } from "firebase/auth";
 
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -43,7 +44,7 @@ const Register = () => {
       }));
 
       // Save user to your backend
-      await fetch("http://localhost:6077/users", {
+      await fetch("https://quickgoo1.vercel.app/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -64,9 +65,14 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-100 to-green-200">
-    <div className="mx-auto md:w-1/2 mt-8 mb-8 lg:w-1/3 items-center p-5 bg-gradient-to-r from-green-500 to-green-300 dark:bg-gray-800 rounded-lg shadow-md">
+       <title>
+              <Helmet>
+                QuickGoo|Register
+              </Helmet>
+            </title>
+    <div className="mx-auto md:w-1/2 mt-8 mb-8 lg:w-1/3 items-center p-5 bg-white rounded-lg shadow-md">
        
-      <h2 className="text-2xl mb-4 text-center text-gray-800 dark:text-white mt-8">Please Register</h2>
+      <h2 className="text-2xl mb-4 text-center  dark:text-white mt-8">Please Register</h2>
       <form onSubmit={handleRegister} className="space-y-4">
         <input
           className="w-full p-3 text-green-800 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
@@ -99,11 +105,11 @@ const Register = () => {
 
         {/* Submit Button */}
         <button
-          type="submit"
-          className="w-full p-3 bg-green-500 text-white rounded-md hover:bg-green-600 border-lg-white"
-        >
-          Register
-        </button>
+  type="submit"
+  className="w-full p-3 bg-green-500 text-white rounded-md hover:bg-green-600 border border-green-900"
+>
+  Register
+</button>
       </form>
 
       {/* Error and Success Messages */}

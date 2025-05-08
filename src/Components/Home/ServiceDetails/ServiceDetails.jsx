@@ -8,7 +8,7 @@ const ServiceDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:6077/services/route/${serviceName}`)
+    fetch(`https://quickgoo1.vercel.app/services/route/${serviceName}`)
       .then((res) => res.json())
       .then((data) => setService(data));
   }, [serviceName]);

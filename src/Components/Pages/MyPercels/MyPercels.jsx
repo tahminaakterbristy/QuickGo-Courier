@@ -2,13 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import { Helmet } from "react-helmet-async";
 
 const MyPercels = () => {
   const [parcels, setParcels] = useState([]);
   const { user } = useContext(AuthContext);
 
   const fetchParcels = async () => {
-    const res = await axios.get(`http://localhost:6077/parcels?email=${user.email}`);
+    const res = await axios.get(`https://quickgoo1.vercel.app/parcels?email=${user.email}`);
     setParcels(res.data);
   };
 
@@ -28,7 +29,7 @@ const MyPercels = () => {
     });
 
     if (confirm.isConfirmed) {
-      await axios.delete(`http://localhost:6077/parcels/${id}`);
+      await axios.delete(`https://quickgoo1.vercel.app/parcels/${id}`);
       fetchParcels();
       Swal.fire('Deleted!', 'Parcel has been deleted.', 'success');
     }
@@ -36,6 +37,9 @@ const MyPercels = () => {
 
   return (
     <div className="max-w-5xl mx-auto mt-8 p-4">
+      <Helmet>
+        <title>QuickGoo | My Parcel</title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-4 text-center">My Parcels</h2>
       <div className="overflow-x-auto">
         <table className="table w-full bg-base-100 rounded-lg shadow-md">
@@ -43,7 +47,6 @@ const MyPercels = () => {
             <tr>
               <th className="text-sm font-semibold text-white">Name</th>
               <th className="text-sm font-semibold text-white">Phone</th>
-  
               <th className="text-sm font-semibold text-white">Address</th>
               <th className="text-sm font-semibold text-white">Weight</th>
               <th className="text-sm font-semibold text-white">Status</th>
@@ -58,19 +61,21 @@ const MyPercels = () => {
                 <td className="text-sm font-medium">{parcel.address}</td>
                 <td className="text-sm font-medium">{parcel.weight} kg</td>
                 <td className="text-sm font-medium">
-                  <div className="tooltip tooltip-top" data-tip={parcel.status === "Approved" ? "Your parcel is approved" : "Waiting for approval"}>
-                    <span className={`px-3 py-1 rounded-full text-white text-xs font-semibold ${parcel.status === "Approved" ? "bg-green-600" : "bg-yellow-500"}`}>
+                  <div className="tooltip tooltip-top" data-tip={parcel.status === "Delivered" ? "Your parcel is approved" : "Waiting for approval"}>
+                    <span className={`px-3 py-1 rounded-full text-white text-xs font-semibold ${parcel.status === "Approved" ? "bg-green-600" : parcel.status === "Delivered" ? "bg-green-600" : "bg-gray-500"}`}>
                       {parcel.status || "Pending"}
                     </span>
                   </div>
                 </td>
                 <td className="space-x-2 flex justify-center items-center">
-                  <button 
-                    className="btn btn-sm bg-red-400 text-black hover:bg-red-500 transition-all duration-300"
-                    onClick={() => handleDelete(parcel._id)}
-                  >
-                    Delete
-                  </button>
+                  {parcel.status !== "Delivered" && (
+                    <button 
+                      className="btn btn-sm bg-red-400 text-white hover:bg-red-500 transition-all duration-300"
+                      onClick={() => handleDelete(parcel._id)}
+                    >
+                      Delete
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

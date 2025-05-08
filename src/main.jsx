@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import './index.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import Root from './Components/Pages/Root/Root';
 import Home from './Components/Home/Home';
 import OurServices from './Components/Home/OurServices/OurServices';
@@ -30,6 +30,10 @@ import AllParcels from './Components/Pages/Dashboard/AllParcels/AllParcels';
 import UserPrivateRoute from './Components/Pages/UserPrivateRoute/UserPrivateRoute';
 import MyPercels from './Components/Pages/MyPercels/MyPercels';
 import UpdateProfile from './Components/Pages/UpdateProfile/UpdateProfile';
+import { HelmetProvider } from 'react-helmet-async';
+
+
+import AdminParcel from './Components/Pages/Dashboard/AdminParcel/AdminParcel';
 
 
 
@@ -113,10 +117,14 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         children: [
+          {
+            index: true,
+            element: <Navigate to="manage-users" replace />,
+          },
           { path: "manage-users", element: <ManageUsers /> },
-          { path: "all-posts", element: <AllParcels /> },
+          { path: "all-parcels", element: <AllParcels /> },
+          { path: "settings", element: <AdminParcel/> },
           // { path: "unauthorised", element: <Unauthorised /> },
-       
         ],
       },
      
@@ -128,7 +136,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Authprovider>
+    <HelmetProvider>
     <RouterProvider router={router}></RouterProvider>
+    </HelmetProvider>
     </Authprovider>
  
   </React.StrictMode>,

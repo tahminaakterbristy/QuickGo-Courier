@@ -14,7 +14,7 @@ const Navbar = () => {
       <li><NavLink to="/" className="nav-link">Home</NavLink></li>
 
       <li><NavLink to="/coverage" className="nav-link">Coverage Area</NavLink></li>
-      <li><NavLink to="/register" className="nav-link">Join Us As Merchant</NavLink></li>
+      <li><NavLink to="/register" className="nav-link">Join Us Merchant</NavLink></li>
       <li><NavLink to="/add-parcel" className="nav-link">Add A Parcel</NavLink></li>
       <li><NavLink to="/my-percels" className="nav-link">My Parcels</NavLink></li>
     </>
@@ -40,6 +40,7 @@ const Navbar = () => {
                 <img src={user.photoURL} alt="User"
                   className="w-10 h-10 rounded-full border-2 border-green-600" />
                 <p className="text-sm font-semibold">{user.displayName}</p>
+                <p className="text-sm font-semibold">{user.email}</p>
                 <button onClick={handleSignOut}
                   className="btn btn-sm bg-gradient-to-r from-green-400 to-green-700 text-white border-none hover:scale-105 transition">
                   Sign Out
@@ -54,47 +55,61 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Desktop View */}
-      <div className="hidden lg:flex flex-1 items-center justify-between w-full">
-       
-        <div className="flex items-center gap-10">
-          <Link to="/" className="text-3xl font-bold bg-gradient-to-r from-green-500 to-green-700 text-transparent bg-clip-text">
-            Quick<span className="text-green-400">Goo</span>
-          </Link>
-          <ul className="menu menu-horizontal gap-5 text-[16px] font-medium">
-            {navLinks}
-          </ul>
-        </div>
+   {/* desktop view*/}
+   <div className="hidden lg:flex w-full items-center justify-between px-6">
+  {/* Logo */}
+  <div className="flex-1">
+    <Link
+      to="/"
+      className="text-4xl font-extrabold bg-gradient-to-r from-green-500 to-green-700 text-transparent bg-clip-text tracking-wide"
+    >
+      Quick<span className="text-green-400">Goo</span>
+    </Link>
+  </div>
 
-        {/* Right Section - User Info */}
-        <div className="flex items-center space-x-4">
-          {user ? (
-            <>
-              <div className="relative group">
-                <Link to="/update-profile">
-                <img src={user.photoURL} alt="User"
-                  className="w-10 h-10 rounded-full border-2 border-green-500 group-hover:scale-105 transition" />
-                <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-2 py-[1px] rounded-full shadow">✓</span>
-                </Link>
-              </div>
-              <div className="flex flex-col text-end">
-              
-               <p className="text-sm font-semibold">{user.displayName}</p>
-                <button onClick={handleSignOut}
-                  className="btn btn-sm bg-gradient-to-r from-green-400 to-green-700 text-white border-none hover:scale-105 transition">
-                  Sign Out
-                </button>
-              </div>
-            </>
-          ) : (
-            <Link to="/login">
-              <button className="btn btn-sm border border-green-600 text-green-600 hover:bg-green-600 hover:text-white transition">
-                Log In
-              </button>
-            </Link>
-          )}
+  {/* Navigation Links */}
+  <div className="flex-1 flex justify-center">
+    <ul className="flex flex-nowrap items-center gap-6 text-[15px] text-green-800 font-semibold whitespace-nowrap">
+      {navLinks}
+    </ul>
+  </div>
+
+  {/* User Section */}
+  <div className="flex-1 flex justify-end items-center gap-5">
+    {user ? (
+      <>
+        <div className="relative group">
+          <Link to="/update-profile">
+            <img
+              src={user.photoURL}
+              alt="User"
+              className="w-12 h-12 rounded-full border-2 border-green-500 group-hover:scale-110 transition-transform duration-300 shadow-md"
+            />
+            <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-2 py-[1px] rounded-full shadow-lg">
+              ✓
+            </span>
+          </Link>
         </div>
-      </div>
+        <div className="text-end">
+          <p className="text-[15px] font-bold truncate max-w-[150px]">{user.displayName}</p>
+          <button
+            onClick={handleSignOut}
+            className="mt-1 mr-6 btn btn-sm bg-gradient-to-r from-green-400 to-green-700 text-white border-none hover:scale-105 hover:shadow-lg transition-all duration-300"
+          >
+            Sign Out
+          </button>
+        </div>
+      </>
+    ) : (
+      <Link to="/login">
+        <button className="btn btn-sm border border-green-600 text-green-600 hover:bg-green-600 hover:text-white transition-all duration-300">
+          Log In
+        </button>
+      </Link>
+    )}
+  </div>
+</div>
+
     </div>
   );
 };

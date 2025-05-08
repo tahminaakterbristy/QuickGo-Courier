@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import { Helmet } from "react-helmet-async";
 
 const UpdateProfile = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -10,10 +11,9 @@ const UpdateProfile = () => {
     photoURL: user?.photoURL || "",
   });
   const [previewImage, setPreviewImage] = useState(user?.photoURL || "");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const auth = getAuth();
 
-  const auth = getAuth(); 
-
-  // Handle text input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -22,27 +22,51 @@ const UpdateProfile = () => {
     }));
   };
 
-  // Handle file input change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setPreviewImage(imageUrl);
-      setFormData((prevData) => ({
-        ...prevData,
-        photoURL: imageUrl,
-      }));
+      setSelectedFile(file); // Save the file for later upload to ImgBB
     }
   };
 
-  // Handle profile update
-  const handleUpdate = () => {
-    updateProfile(auth.currentUser, { 
+  const handleUpdate = async () => {
+    let imageURL = formData.photoURL;
+
+    // যদি নতুন ইমেজ ফাইল দেওয়া হয়, তাহলে ImgBB তে আপলোড করবো
+    if (selectedFile) {
+      const formDataImage = new FormData();
+      formDataImage.append("image", selectedFile);
+
+      try {
+        const res = await fetch("https://api.imgbb.com/1/upload?key=c9984dc950c61a4fb15a2428724bd675", {
+          method: "POST",
+          body: formDataImage,
+        });
+        const data = await res.json();
+        imageURL = data.data.display_url;
+      } catch (err) {
+        console.error("Image upload failed:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Image Upload Failed",
+          text: "Please try again.",
+        });
+        return;
+      }
+    }
+
+    // এবার Firebase profile আপডেট
+    updateProfile(auth.currentUser, {
       displayName: formData.name,
-      photoURL: formData.photoURL,
+      photoURL: imageURL,
     })
-      .then(() => {
-        setUser({ ...auth.currentUser }); 
+      .then(async () => {
+        await auth.currentUser.reload();
+        const updatedUser = auth.currentUser;
+        setUser({ ...updatedUser });
+
         Swal.fire({
           icon: "success",
           title: "Profile Updated!",
@@ -53,12 +77,12 @@ const UpdateProfile = () => {
           confirmButtonColor: "#4CAF50",
         });
 
-        
         setFormData({
           name: "",
           photoURL: "",
         });
-        setPreviewImage(""); 
+        setPreviewImage("");
+        setSelectedFile(null);
       })
       .catch((error) => {
         console.error("Error updating profile:", error);
@@ -66,21 +90,24 @@ const UpdateProfile = () => {
           icon: "error",
           title: "Oops...",
           text: "Something went wrong. Please try again later.",
-          confirmButtonText: "Try Again",
-          background: "#fff",
-          iconColor: "#FF5733",
-          confirmButtonColor: "#FF5733",
         });
       });
   };
 
   return (
     <div className="max-w-md mx-auto mt-16 mb-16 p-8 bg-gradient-to-r from-green-200 to-green-100 rounded-lg shadow-xl">
+      <Helmet>
+        <title>QuickGoo | Update Profile</title>
+      </Helmet>
       <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Update Profile</h2>
 
       {previewImage && (
         <div className="flex justify-center mb-6">
-          <img src={previewImage} alt="Preview" className="w-24 h-24 rounded-full object-cover border-4 border-green-500" />
+          <img
+            src={previewImage}
+            alt="Preview"
+            className="w-24 h-24 rounded-full object-cover border-4 border-green-500"
+          />
         </div>
       )}
 

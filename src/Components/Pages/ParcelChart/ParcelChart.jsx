@@ -15,7 +15,7 @@ const ParcelChart = () => {
   useEffect(() => {
     const fetchParcels = async () => {
       try {
-        const res = await axios.get(`http://localhost:6077/parcels`);
+        const res = await axios.get(`https://quickgoo1.vercel.app/parcels`);
         const parcels = res.data;
 
         // Group by month

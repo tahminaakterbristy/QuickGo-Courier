@@ -9,7 +9,7 @@ const ManageUsers = () => {
   // Fetch users from the server
   useEffect(() => {
     setLoading(true); // Set loading to true when starting fetch
-    fetch("http://localhost:6077/users")
+    fetch("https://quickgoo1.vercel.app/users")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok " + res.statusText);
@@ -34,7 +34,7 @@ const ManageUsers = () => {
   const handleMakeAdmin = async (id) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:6077/users/admin/${id}`, {
+      const response = await fetch(`https://quickgoo1.vercel.app/users/admin/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const ManageUsers = () => {
 
   const handleDeleteUser = async (id) => {
     try {
-      const response = await fetch(`http://localhost:6077/users/${id}`, {
+      const response = await fetch(`https://quickgoo1.vercel.app/users/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -100,7 +100,7 @@ const ManageUsers = () => {
 
   const handleRemoveAdmin = async (id) => {
     try {
-      const response = await fetch(`http://localhost:6077/users/remove-admin/${id}`, {
+      const response = await fetch(`https://quickgoo1.vercel.app/users/remove-admin/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -134,53 +134,67 @@ const ManageUsers = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
-      {loading && <div className="text-center py-4">Loading...</div>} {/* Loading indicator */}
-      <table className="min-w-full bg-white border border-gray-300 table-auto sm:overflow-x-scroll sm:block">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b">Name</th>
-            <th className="py-2 px-4 border-b">Email</th>
-            <th className="py-2 px-4 border-b">Role</th>
-            <th className="py-2 px-4 border-b">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.email}>
-              <td className="py-2 px-4 border-b">{user.name}</td>
-              <td className="py-2 px-4 border-b">{user.email}</td>
-              <td className="py-2 px-4 border-b">{user.role}</td>
-              <td className="py-2 px-4 border-b">
-                {user.role !== "admin" && (
-                  <button
-                    className="text-blue-500 hover:text-blue-700 mr-2"
-                    onClick={() => handleMakeAdmin(user._id)}
-                  >
-                    <FaUserPlus />
-                  </button>
-                )}
-                {user.role === "admin" && (
-                  <button
-                    className="text-red-500 hover:text-red-700 mr-2"
-                    onClick={() => handleRemoveAdmin(user._id)}
-                  >
-                    <FaUserTimes />
-                  </button>
-                )}
-                <button
-                  className="text-red-500 hover:text-red-700"
-                  onClick={() => handleDeleteUser(user._id)}
-                >
-                  <FaTrashAlt />
-                </button>
-              </td>
+    <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
+    <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+      Manage Users
+    </h2>
+  
+    {loading ? (
+      <div className="flex justify-center py-8">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    ) : (
+      <div className="overflow-x-auto shadow-md rounded-lg bg-white">
+        <table className="min-w-full text-sm text-left text-gray-700">
+          <thead className="text-xs uppercase bg-gray-200 text-gray-700">
+            <tr>
+              <th className="px-6 py-4">Name</th>
+              <th className="px-6 py-4">Email</th>
+              <th className="px-6 py-4">Role</th>
+              <th className="px-6 py-4 text-center">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.email} className="hover:bg-gray-100 transition">
+                <td className="px-6 py-4">{user.name}</td>
+                <td className="px-6 py-4">{user.email}</td>
+                <td className="px-6 py-4 capitalize">{user.role}</td>
+                <td className="px-6 py-4 flex gap-3 justify-center">
+                  {user.role !== "admin" && (
+                    <button
+                      title="Make Admin"
+                      className="text-green-600 hover:text-green-800 transition"
+                      onClick={() => handleMakeAdmin(user._id)}
+                    >
+                      <FaUserPlus size={18} />
+                    </button>
+                  )}
+                  {user.role === "admin" && (
+                    <button
+                      title="Remove Admin"
+                      className="text-yellow-600 hover:text-yellow-800 transition"
+                      onClick={() => handleRemoveAdmin(user._id)}
+                    >
+                      <FaUserTimes size={18} />
+                    </button>
+                  )}
+                  <button
+                    title="Delete User"
+                    className="text-red-600 hover:text-red-800 transition"
+                    onClick={() => handleDeleteUser(user._id)}
+                  >
+                    <FaTrashAlt size={18} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    )}
+  </div>
+  
   );
 };
 

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
-import image1 from '../../../assets/Logistics-bro.png'
+import image1 from '../../../../public/assets/Logistics-bro.png'
 
 // Text & Image Variants for Framer Motion
 const textVariant = {

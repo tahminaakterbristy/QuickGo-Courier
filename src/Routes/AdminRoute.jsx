@@ -1,51 +1,59 @@
-import { useContext, useEffect, useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
+import { useState } from "react";
+import { Menu } from "lucide-react"; 
 
-import { AuthContext } from "../Components/AuthProvider/AuthProvider";
+const AdminPanel = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-const AdminRoute = ({ children }) => {
-  const [isAdmin, setIsAdmin] = useState(null); // null for initial loading
-  const { user } = useContext(AuthContext);
- 
+  const navItems = [
+    { path: "/dashboard/manage-users", label: "Manage Users" },
+    { path: "/dashboard/all-parcels", label: "All Parcels" },
+    { path: "/dashboard/settings", label: "Parcel Graph" },
+  ];
 
-  useEffect(() => {
-    if (user?.email) {
-      const token = localStorage.getItem("token");
+  return (
+    <div className="flex flex-col md:flex-row min-h-screen">
+      {/* Mobile Toggle Button */}
+      <div className="md:hidden bg-green-600 text-white p-4 flex justify-between items-center">
+        <h2 className="text-xl font-bold">Admin Panel</h2>
+        <button onClick={() => setIsOpen(!isOpen)}>
+          <Menu className="w-6 h-6" />
+        </button>
+      </div>
 
-      fetch(`http://localhost:6077/users/admin/${user.email}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.admin) {
-            setIsAdmin(true);
-          } else {
-            setIsAdmin(false);
-          }
-        })
-        .catch((err) => {
-          console.error("Admin check failed", err);
-          setIsAdmin(false);
-        });
-    } else {
-      setIsAdmin(false);
-    }
-  }, [user?.email]);
+      {/* Sidebar */}
+      <div
+        className={`${
+          isOpen ? "block" : "hidden"
+        } md:block w-full md:w-64 bg-gradient-to-b from-green-700 to-green-900 text-white p-6 space-y-6 transition-all duration-300 z-10`}
+      >
+        <h2 className="text-2xl font-extrabold mb-4">Admin Panel</h2>
+        <ul className="space-y-4">
+          {navItems.map((item) => (
+            <li key={item.path}>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  `block text-lg px-3 py-2 rounded-lg transition duration-200 ${
+                    isActive
+                      ? "bg-green-500 text-white font-semibold"
+                      : "hover:bg-green-600"
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-  // useEffect(() => {
-  //   if (isAdmin === false) {
-  //     navigate("/unauthorised");
-  //   }
-  // }, [isAdmin, navigate]);
-
-  if (isAdmin === null) {
-    return <div className="text-center mt-10 font-semibold">Checking admin status...</div>;
-  }
-
-  return children;
+      {/* Main Content */}
+      <div className="flex-1 p-6 bg-gray-50 overflow-y-auto">
+        <Outlet />
+      </div>
+    </div>
+  );
 };
 
-export default AdminRoute;
+export default AdminPanel;

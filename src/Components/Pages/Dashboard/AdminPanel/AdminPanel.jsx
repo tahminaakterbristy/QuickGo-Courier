@@ -1,7 +1,22 @@
-import { Outlet } from "react-router-dom";
-
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../../AuthProvider/AuthProvider";
 
 const AdminPanel = () => {
+  const { logOut, user } = useContext(AuthContext); // এখানে user context থেকে ইউজার ইনফরমেশন পাবেন।
+  const navigate = useNavigate(); // রিডিরেক্ট করার জন্য navigate হুক
+
+  // লগ আউট ফাংশন
+  const handleSignOut = () => {
+    logOut()
+      .then(() => {
+        navigate("/"); // লগ আউট হলে হোম পেইজে রিডিরেক্ট
+      })
+      .catch((error) => {
+        console.error("Error during sign out:", error);
+      });
+  };
+
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -22,6 +37,22 @@ const AdminPanel = () => {
             <a href="/dashboard/settings" className="text-lg hover:text-green-400">
               Site Settings
             </a>
+          </li>
+
+          <li>
+            {/* Checking if user is logged in */}
+            {user ? (
+              <button
+                onClick={handleSignOut}
+                className="btn btn-sm bg-gradient-to-r from-green-400 to-green-700 text-white border-none hover:scale-105 transition"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <Link to="/login" className="w-full">
+                <button className="btn btn-success btn-sm w-full text-white">Log In</button>
+              </Link>
+            )}
           </li>
         </ul>
       </div>

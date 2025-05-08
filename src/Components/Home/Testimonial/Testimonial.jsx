@@ -8,7 +8,7 @@ const Testimonial = () => {
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    fetch("http://localhost:6077/testimonials")
+    fetch("https://quickgoo1.vercel.app/testimonials")
       .then((res) => res.json())
       .then((data) => setTestimonials(data));
   }, []);

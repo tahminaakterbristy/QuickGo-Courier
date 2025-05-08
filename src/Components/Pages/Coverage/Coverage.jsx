@@ -1,78 +1,160 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-
+import axios from 'axios';
+import { useState } from 'react';
+import { FaMapMarkerAlt, FaTruck, FaFlagCheckered } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Coverage = () => {
-  const [coverages, setCoverages] = useState([]);
-  const [search, setSearch] = useState("");
-  useEffect(() => {
-    axios.get("http://localhost:6077/coverages")
-      .then(res => {
-        // Check if res.data is an array before setting it
-        if (Array.isArray(res.data)) {
-          setCoverages(res.data);
-        } else {
-          console.error("Data is not an array:", res.data);
-        }
-      })
-      .catch(err => {
-        console.error("Error fetching coverage data: ", err);
-      });
-  }, []);
-  
+  const [pickup, setPickup] = useState('');
+  const [delivery, setDelivery] = useState('');
+  const [dropoff, setDropoff] = useState('');
+  const [response, setResponse] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // Filter coverages based on search query
-  const filtered = coverages.filter((zone) =>
-    zone.area.toLowerCase().includes(search.toLowerCase())
-  );
+  const checkCoverage = async () => {
+    if (!pickup || !delivery || !dropoff) {
+      toast.error("⚠️ Please fill all the fields!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await axios.get('https://quickgoo1.vercel.app/check-coverage', {
+        params: { pickup, delivery, dropoff }
+      });
+
+      const { pickupStatus, deliveryStatus, dropoffStatus } = res.data;
+      console.log("API Response:", res.data);
+      const normalizedResponse = {
+        pickupStatus: pickupStatus?.toLowerCase(),
+        deliveryStatus: deliveryStatus?.toLowerCase(),
+        dropoffStatus: dropoffStatus?.toLowerCase(),
+      };
+
+      setResponse(normalizedResponse);
+      setError(null);
+
+      const uncoveredAreas = [];
+
+      if (normalizedResponse.pickupStatus !== 'covered') uncoveredAreas.push('Pickup');
+      if (normalizedResponse.deliveryStatus !== 'covered') uncoveredAreas.push('Delivery');
+      if (normalizedResponse.dropoffStatus !== 'covered') uncoveredAreas.push('Dropoff');
+
+      if (uncoveredAreas.length === 0) {
+        toast.success("✅ All locations are under coverage");
+      } else {
+        toast.warn(`⚠️ ${uncoveredAreas.join(', ')} location(s) not covered`);
+      }
+
+    } catch (err) {
+      setError("An error occurred while fetching coverage data.");
+      setResponse(null);
+      toast.error("❌ Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderStatus = (status, label) => {
+    const isCovered = status === 'covered';
+    return (
+      <p className={`flex items-center gap-2 ${isCovered ? 'text-green-600' : 'text-red-600'}`}>
+        {isCovered ? '✅' : '❌'} <span>{label}: {status}</span>
+      </p>
+    );
+  };
 
   return (
-    <section className="bg-gray-50 py-12 px-4">
-      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
-        কভারেজ ও চার্জিং তথ্য
-      </h2>
+    <div className="max-w-xl mx-auto p-6 rounded-lg shadow-lg bg-green-50 mt-16">
+      <h2 className="text-3xl font-bold mb-6 text-center text-success">Check Coverage</h2>
 
-      <div className="flex justify-center mb-8">
-        <input
-          type="text"
-          placeholder="এলাকা অনুসন্ধান করুন..."
-          className="input input-bordered w-full max-w-sm"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)} // Search functionality
-        />
+      <div className="space-y-4">
+        {/* Pickup */}
+        <div>
+          <label className="flex items-center gap-2 font-medium">
+            <FaMapMarkerAlt /> Pickup Location
+          </label>
+          <input
+            type="text"
+            list="locations"
+            className="input input-bordered w-full"
+            value={pickup}
+            onChange={(e) => setPickup(e.target.value)}
+            placeholder="Enter pickup location"
+          />
+        </div>
+
+        {/* Delivery */}
+        <div>
+          <label className="flex items-center gap-2 font-medium">
+            <FaTruck /> Delivery Location
+          </label>
+          <input
+            type="text"
+            list="locations"
+            className="input input-bordered w-full"
+            value={delivery}
+            onChange={(e) => setDelivery(e.target.value)}
+            placeholder="Enter delivery location"
+          />
+        </div>
+
+        {/* Dropoff */}
+        <div>
+          <label className="flex items-center gap-2 font-medium">
+            <FaFlagCheckered /> Dropoff Location
+          </label>
+          <input
+            type="text"
+            list="locations"
+            className="input input-bordered w-full"
+            value={dropoff}
+            onChange={(e) => setDropoff(e.target.value)}
+            placeholder="Enter dropoff location"
+          />
+        </div>
+
+        <datalist id="locations">
+          <option value="Dhaka Metro" />
+          <option value="Chattogram" />
+          <option value="Rajshahi" />
+          <option value="Khulna" />
+          <option value="Sylhet" />
+          <option value="Barisal" />
+          <option value="Rangpur" />
+          <option value="Mymensingh" />
+        </datalist>
+
+        <button
+          onClick={checkCoverage}
+          className="btn btn-success w-full text-white"
+        >
+          Check Coverage
+        </button>
       </div>
 
-      <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
-        {/* Loop through filtered coverages and display */}
-        {filtered.map((zone, i) => (
-          <div
-            key={i}
-            className="bg-white p-6 rounded-xl shadow-md border border-gray-200"
-          >
-            <h3 className="text-xl font-semibold text-gray-800 flex items-center">
-              {zone.area}
-              {zone.express && (
-                <span className="ml-2 px-2 py-0.5 text-xs bg-green-500 text-white rounded-full">
-                  এক্সপ্রেস
-                </span>
-              )}
-            </h3>
-            <p className="text-gray-600 mt-2"><strong>সার্ভিস টাইপ:</strong> {zone.type}</p>
-            <p className="text-gray-600"><strong>সময়:</strong> {zone.time}</p>
-            <p className="text-gray-600"><strong>বেস চার্জ:</strong> ৳{zone.baseCharge}</p>
+      {/* Loading */}
+      {loading && (
+        <div className="flex justify-center mt-4">
+          <span className="loading loading-spinner text-primary"></span>
+        </div>
+      )}
 
-            <div className="mt-4">
-              <p className="font-medium text-gray-700 mb-1">ওজন ভিত্তিক চার্জ:</p>
-              <ul className="list-disc list-inside text-sm text-gray-700">
-                <li>১ কেজি পর্যন্ত: +৳{zone.weightCharges["1kg"]}</li>
-                <li>১-৩ কেজি: +৳{zone.weightCharges["3kg"]}</li>
-                <li>৩ কেজির উপরে: +৳{zone.weightCharges["above3kg"]}</li>
-              </ul>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
+      {/* Result */}
+      {response && (
+        <div className="mt-6 space-y-2 text-lg">
+          {renderStatus(response.pickupStatus, "Pickup")}
+          {renderStatus(response.deliveryStatus, "Delivery")}
+          {renderStatus(response.dropoffStatus, "Dropoff")}
+        </div>
+      )}
+
+      {/* Error */}
+      {error && <div className="mt-4 text-red-500">{error}</div>}
+
+      <ToastContainer />
+    </div>
   );
 };
 
