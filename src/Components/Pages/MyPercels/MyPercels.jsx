@@ -38,7 +38,7 @@ const MyPercels = () => {
   return (
     <div className="max-w-5xl mx-auto mt-8 p-4">
       <Helmet>
-        <title>QuickGoo | My Parcel</title>
+        <title>QuickGoo | My Parcels</title>
       </Helmet>
       <h2 className="text-2xl font-bold mb-4 text-center">My Parcels</h2>
       <div className="overflow-x-auto">
@@ -49,34 +49,36 @@ const MyPercels = () => {
               <th className="text-sm font-semibold text-white">Phone</th>
               <th className="text-sm font-semibold text-white">Address</th>
               <th className="text-sm font-semibold text-white">Weight</th>
+              <th className="text-sm font-semibold text-white">TrackingCode</th>
               <th className="text-sm font-semibold text-white">Status</th>
               <th className="text-sm font-semibold text-white">Actions</th>
             </tr>
           </thead>
           <tbody>
             {parcels.map((parcel) => (
-              <tr key={parcel._id} className="hover:bg-gray-50 transition duration-200 bg-green-100 border-gray-300">
+              <tr key={parcel._id} className="hover:bg-gray-50 transition duration-200 bg-green-50 border-gray-300">
                 <td className="text-sm font-medium">{parcel.name}</td>
                 <td className="text-sm font-medium">{parcel.phone}</td>
                 <td className="text-sm font-medium">{parcel.address}</td>
                 <td className="text-sm font-medium">{parcel.weight} kg</td>
+                <td className="text-sm font-medium">{parcel.trackingCode}</td>
                 <td className="text-sm font-medium">
-                  <div className="tooltip tooltip-top" data-tip={parcel.status === "Delivered" ? "Your parcel is approved" : "Waiting for approval"}>
+                  <div className="tooltip tooltip-top" data-tip={parcel.status === "Delivered" ? "Your parcel is delivered" : "Hasn't delivered yet"}>
                     <span className={`px-3 py-1 rounded-full text-white text-xs font-semibold ${parcel.status === "Approved" ? "bg-green-600" : parcel.status === "Delivered" ? "bg-green-600" : "bg-gray-500"}`}>
                       {parcel.status || "Pending"}
                     </span>
                   </div>
                 </td>
                 <td className="space-x-2 flex justify-center items-center">
-                  {parcel.status !== "Delivered" && (
-                    <button 
-                      className="btn btn-sm bg-red-400 text-white hover:bg-red-500 transition-all duration-300"
-                      onClick={() => handleDelete(parcel._id)}
-                    >
-                      Delete
-                    </button>
-                  )}
-                </td>
+  {parcel.status !== "Delivered" && parcel.status !== "Approved" && (
+    <button 
+      className="btn btn-sm bg-red-400 text-white hover:bg-red-500 transition-all duration-300"
+      onClick={() => handleDelete(parcel._id)}
+    >
+      Delete
+    </button>
+  )}
+</td>
               </tr>
             ))}
           </tbody>

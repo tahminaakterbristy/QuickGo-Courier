@@ -5,6 +5,17 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
+const divisions = {
+  Dhaka: ["Dhaka", "Faridpur", "Gazipur", "Kishoreganj", "Gopalganj", "Madaripur"],
+  Chattogram: ["Comilla", "Cox's Bazar", "Feni", "Chandpur", "Rangamati"],
+  Rajshahi: ["Bogura", "Joypurhat", "Naogaon", "Natore", "Pabna", "Rajshahi"],
+  Khulna: ["Bagerhat", "Chuadanga", "Jashore", "Khulna", "Kushtia", "Meherpur"],
+  Barisal: ["Barisal", "Barguna", "Bhola", "Jhalokathi", "Patuakhali", "Pirojpur"],
+  Sylhet: ["Sylhet", "Habiganj", "Moulvibazar", "Sunamganj"],
+  Rangpur: ["Dinajpur", "Gaibandha", "Kurigram", "Lalmonirhat", "Rangpur", "Thakurgaon"],
+  Mymensingh: ["Jamalpur", "Mymensingh", "Netrokona", "Sherpur"],
+};
+
 const AddParcel = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -13,12 +24,16 @@ const AddParcel = () => {
     name: "",
     phone: "",
     address: "",
+    division: "",
+    district: "",
     weight: "",
     type: "",
     dimensions: "",
-    deliverySpeed: "standard", 
+    deliverySpeed: "standard",
     insurance: false,
     pickupDate: "",
+    receiverName: "",
+    receiverAddress: "",
   });
 
   const handleChange = (e) => {
@@ -31,24 +46,30 @@ const AddParcel = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const parcel = { ...form, email: user.email, status: "Pending" };
+    const parcel = { ...form, email: user?.email, status: "Pending" };
+
     try {
       await axios.post("https://quickgoo1.vercel.app/parcels", parcel);
       setForm({
         name: "",
         phone: "",
         address: "",
+        division: "",
+        district: "",
         weight: "",
         type: "",
         dimensions: "",
         deliverySpeed: "standard",
         insurance: false,
         pickupDate: "",
+        receiverName: "",
+        receiverAddress: "",
       });
       Swal.fire("Parcel added successfully!");
-      navigate('/my-percels')
+      navigate('/my-percels');
     } catch (error) {
-      alert("Error adding parcel.");
+      console.error(error);
+      Swal.fire("Error", "Failed to add parcel. Please try again.", "error");
     }
   };
 
@@ -60,25 +81,27 @@ const AddParcel = () => {
       <h2 className="text-3xl font-extrabold text-center mb-6 text-green-700">Add Your Parcel</h2>
       <p className="text-center text-gray-600 mb-10">Provide parcel details for smooth delivery</p>
 
-      {/* Form Starts */}
       <form onSubmit={handleSubmit} className="space-y-8">
+
         {/* Parcel Information Section */}
         <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
           <h3 className="text-2xl font-semibold text-gray-800 mb-4">Parcel Information</h3>
+
           <input
             name="name"
             value={form.name}
             onChange={handleChange}
-            className="w-full p-4 mb-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
+            className="w-full p-4 mb-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
             type="text"
-            placeholder="Parcel Name (e.g., Electronics, Books)"
+            placeholder="Parcel Type (e.g., Electronics, Books)"
           />
-          <div className="flex flex-col-2 gap-4">
+
+          <div className="flex flex-col md:flex-row gap-4 mb-5">
             <input
               name="weight"
               value={form.weight}
               onChange={handleChange}
-              className="w-full md:w-1/2 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
+              className="w-full md:w-1/2 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               type="number"
               placeholder="Weight (kg)"
             />
@@ -86,32 +109,82 @@ const AddParcel = () => {
               name="dimensions"
               value={form.dimensions}
               onChange={handleChange}
-              className="w-full md:w-1/2 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
+              className="w-full md:w-1/2 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
               type="text"
               placeholder="Dimensions (LxWxH)"
             />
           </div>
-        </div>
+
+        
+
+          </div>
 
         {/* Receiver Information Section */}
         <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
           <h3 className="text-2xl font-semibold text-gray-800 mb-4">Receiver Details</h3>
+          <div className="flex flex-col md:flex-row gap-4 mb-5">
           <input
             name="receiverName"
-            value={form.receiverName || ""}
+            value={form.receiverName}
             onChange={handleChange}
-            className="w-full p-4 mb-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
+            className="w-full p-4 mb-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
             type="text"
             placeholder="Receiver Name"
           />
           <textarea
             name="receiverAddress"
-            value={form.receiverAddress || ""}
+            value={form.receiverAddress}
             onChange={handleChange}
-            className="w-full p-4 mb-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
-            placeholder="Receiver Address"
+            className="w-full p-4 mb-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            placeholder="Receiver's Phone Number"
+          />
+
+          </div>
+          
+
+
+<div className="flex flex-col md:flex-row gap-4 mb-5">
+            <select
+              name="division"
+              value={form.division}
+              onChange={handleChange}
+              className="w-full md:w-1/2 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+            >
+              <option value="">Select Division</option>
+              {Object.keys(divisions).map((division) => (
+                <option key={division} value={division}>
+                  {division}
+                </option>
+              ))}
+            </select>
+            <select
+              name="district"
+              value={form.district}
+              onChange={handleChange}
+              className="w-full md:w-1/2 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              required
+              disabled={!form.division}
+            >
+              <option value="">Select District</option>
+              {form.division &&
+                divisions[form.division].map((district) => (
+                  <option key={district} value={district}>
+                    {district}
+                  </option>
+                ))}
+            </select>
+          </div>
+          <input
+            name="address"
+            value={form.address}
+            onChange={handleChange}
+            className="w-full p-4 mb-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            type="text"
+            placeholder="Full Pickup Address"
           />
         </div>
+        
 
         {/* Additional Options Section */}
         <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
@@ -120,43 +193,23 @@ const AddParcel = () => {
             name="pickupDate"
             value={form.pickupDate}
             onChange={handleChange}
-            className="w-full p-4 mb-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
+            className="w-full p-4 mb-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
             type="date"
           />
           <div className="flex flex-wrap gap-6 mb-5">
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                name="deliverySpeed"
-                value="standard"
-                checked={form.deliverySpeed === "standard"}
-                onChange={handleChange}
-                className="text-green-500 focus:ring-2 focus:ring-green-500"
-              />
-              <span>Standard</span>
-            </label>
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                name="deliverySpeed"
-                value="express"
-                checked={form.deliverySpeed === "express"}
-                onChange={handleChange}
-                className="text-green-500 focus:ring-2 focus:ring-green-500"
-              />
-              <span>Express</span>
-            </label>
-            <label className="flex items-center space-x-2">
-              <input
-                type="radio"
-                name="deliverySpeed"
-                value="sameDay"
-                checked={form.deliverySpeed === "sameDay"}
-                onChange={handleChange}
-                className="text-green-500 focus:ring-2 focus:ring-green-500"
-              />
-              <span>Same Day</span>
-            </label>
+            {["standard", "express", "sameDay"].map((speed) => (
+              <label key={speed} className="flex items-center space-x-2">
+                <input
+                  type="radio"
+                  name="deliverySpeed"
+                  value={speed}
+                  checked={form.deliverySpeed === speed}
+                  onChange={handleChange}
+                  className="text-green-500 focus:ring-2 focus:ring-green-500"
+                />
+                <span className="capitalize">{speed === "sameDay" ? "Same Day" : speed}</span>
+              </label>
+            ))}
           </div>
         </div>
 
@@ -164,24 +217,30 @@ const AddParcel = () => {
         <div className="flex justify-between gap-4">
           <button
             type="submit"
-            className="w-full sm:w-1/2 bg-green-500 text-white py-4 rounded-lg text-lg font-semibold hover:bg-green-600 transition-colors duration-300"
+            className="w-full sm:w-1/2 bg-green-500 text-white py-4 rounded-lg text-lg font-semibold hover:bg-green-600 transition-colors"
           >
             Add Parcel
           </button>
           <button
             type="reset"
-            onClick={() => setForm({
-              name: "",
-              phone: "",
-              address: "",
-              weight: "",
-              type: "",
-              dimensions: "",
-              deliverySpeed: "standard",
-              insurance: false,
-              pickupDate: "",
-            })}
-            className="w-full sm:w-1/2 bg-gray-300 text-gray-700 py-4 rounded-lg text-lg font-semibold hover:bg-gray-400 transition-colors duration-300"
+            onClick={() =>
+              setForm({
+                name: "",
+                phone: "",
+                address: "",
+                division: "",
+                district: "",
+                weight: "",
+                type: "",
+                dimensions: "",
+                deliverySpeed: "standard",
+                insurance: false,
+                pickupDate: "",
+                receiverName: "",
+                receiverAddress: "",
+              })
+            }
+            className="w-full sm:w-1/2 bg-gray-300 text-gray-700 py-4 rounded-lg text-lg font-semibold hover:bg-gray-400 transition-colors"
           >
             Cancel
           </button>

@@ -34,7 +34,7 @@ const UpdateProfile = () => {
   const handleUpdate = async () => {
     let imageURL = formData.photoURL;
 
-    // যদি নতুন ইমেজ ফাইল দেওয়া হয়, তাহলে ImgBB তে আপলোড করবো
+    // Saving new image to imgbb
     if (selectedFile) {
       const formDataImage = new FormData();
       formDataImage.append("image", selectedFile);
@@ -57,7 +57,7 @@ const UpdateProfile = () => {
       }
     }
 
-    // এবার Firebase profile আপডেট
+    //  Firebase profile 
     updateProfile(auth.currentUser, {
       displayName: formData.name,
       photoURL: imageURL,

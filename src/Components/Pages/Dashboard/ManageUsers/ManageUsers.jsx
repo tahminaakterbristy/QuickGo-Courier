@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { FaUserPlus, FaUserTimes, FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 
@@ -134,7 +135,10 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="p-4 md:p-8 bg-gray-50 min-h-screen">
+    <div className="p-4 md:p-8 bg-green-50 min-h-screen">
+      <Helmet>
+              <title>QuickGoo | User management</title>
+            </Helmet>
     <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
       Manage Users
     </h2>

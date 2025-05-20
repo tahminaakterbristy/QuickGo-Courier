@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { FaMapMarkerAlt, FaTruck, FaFlagCheckered } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -67,6 +68,9 @@ const Coverage = () => {
 
   return (
     <div className="max-w-xl mx-auto p-6 rounded-lg shadow-lg bg-green-50 mt-16">
+      <Helmet>
+              <title>QuickGoo | Coverage</title>
+            </Helmet>
       <h2 className="text-3xl font-bold mb-6 text-center text-success">Check Coverage</h2>
 
       <div className="space-y-4">

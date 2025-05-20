@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { FaCheck, FaTrashAlt, FaTruck } from "react-icons/fa";
 import { ImSpinner9 } from "react-icons/im";
+import { Helmet } from "react-helmet-async";
 
 const AllParcels = () => {
   const [parcels, setParcels] = useState([]);
@@ -155,6 +156,9 @@ const AllParcels = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-4">
+      <Helmet>
+              <title>QuickGoo | Parcel Management</title>
+            </Helmet>
       <h2 className="text-3xl font-bold text-center mb-6 text-success">All Parcels</h2>
 
       {loading && (

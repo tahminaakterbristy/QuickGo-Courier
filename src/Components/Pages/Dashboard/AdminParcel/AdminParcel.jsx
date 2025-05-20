@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import {
-  BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
-} from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { Helmet } from 'react-helmet-async';
 
 const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#a4de6c'];
 
@@ -14,18 +12,13 @@ const AdminParcel = () => {
   const [data, setData] = useState([]);
   const [summary, setSummary] = useState({});
   const [loading, setLoading] = useState(true);
-  const [chartType, setChartType] = useState('bar');
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log("Token:", token);
-    axios.get('https://quickgoo1.vercel.app/admin/parcel-status', {
+    axios.get('https://quickgoo1.vercel.app/parcels/admin/parcel-status', {
       headers: { Authorization: `Bearer ${token}` }
-      
-
     })
-    
       .then(res => {
         const result = res.data;
         const chartData = [
@@ -33,10 +26,8 @@ const AdminParcel = () => {
           { name: 'Approved', count: result.approved },
           { name: 'Pending', count: result?.pending ?? 0 },
           { name: 'Delivered', count: result.delivered },
-        
         ];
         setData(chartData);
-        console.log(chartData);
         setSummary(result);
         setLoading(false);
       })
@@ -51,62 +42,12 @@ const AdminParcel = () => {
       });
   }, []);
 
-  const renderChart = () => {
-    if (chartType === 'bar') {
-      return (
-        <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis allowDecimals={false} />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="count" fill="#8884d8" barSize={50} isAnimationActive />
-        </BarChart>
-      );
-    } else if (chartType === 'line') {
-      return (
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis allowDecimals={false} />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="count" stroke="#8884d8" strokeWidth={3} isAnimationActive />
-        </LineChart>
-      );
-    } else if (chartType === 'pie') {
-      return (
-        <PieChart>
-          <Tooltip />
-          <Legend />
-          <Pie data={data} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-        </PieChart>
-      );
-    }
-  };
-
   return (
     <div className="w-full p-4">
+      <Helmet>
+        <title>QuickGoo | Parcel Graph</title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-4 text-center">Parcel Status Overview</h2>
-
-      {/* Chart Type Selector & Export Button */}
-      <div className="flex justify-between items-center mb-6 flex-wrap gap-2">
-        <select
-          onChange={(e) => setChartType(e.target.value)}
-          className="select select-bordered w-full max-w-xs"
-          value={chartType}
-        >
-          <option value="bar">Bar Chart</option>
-          <option value="line">Line Chart</option>
-          <option value="pie">Pie Chart</option>
-        </select>
-
-       
-      </div>
 
       {/* Summary Cards */}
       {loading ? (
@@ -136,7 +77,7 @@ const AdminParcel = () => {
         </div>
       )}
 
-      {/* Chart Display */}
+      {/* Pie Chart */}
       <div className="w-full h-[400px]">
         {loading ? (
           <Skeleton height={400} />
@@ -144,7 +85,23 @@ const AdminParcel = () => {
           <div className="text-red-500 text-center">{error}</div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            {renderChart()}
+            <PieChart>
+              <Tooltip />
+              <Legend />
+              <Pie
+                data={data}
+                dataKey="count"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label
+              >
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+            </PieChart>
           </ResponsiveContainer>
         )}
       </div>

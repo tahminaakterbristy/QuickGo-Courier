@@ -22,9 +22,9 @@ import ManageUsers from './Components/Pages/Dashboard/ManageUsers/ManageUsers';
 
 
 
-import AddParcel from './Components/Pages/AddParcel/AddParcel';
 
-import ParcelChart from './Components/Pages/ParcelChart/ParcelChart';
+
+
 import AllParcels from './Components/Pages/Dashboard/AllParcels/AllParcels';
 
 import UserPrivateRoute from './Components/Pages/UserPrivateRoute/UserPrivateRoute';
@@ -34,6 +34,9 @@ import { HelmetProvider } from 'react-helmet-async';
 
 
 import AdminParcel from './Components/Pages/Dashboard/AdminParcel/AdminParcel';
+import ParcelTrack from './Components/Pages/ParcelTrack/ParcelTrack';
+import AddParcel from './Components/Pages/AddParcel/AddParcel';
+
 
 
 
@@ -73,6 +76,12 @@ const router = createBrowserRouter([
       },
       {
       
+        path: '/parcelTrack',
+        element: <ParcelTrack></ParcelTrack>
+        
+      },
+      {
+      
         path: '/register',
         element: <Register></Register>
         
@@ -80,15 +89,10 @@ const router = createBrowserRouter([
       {
       
         path: '/add-parcel',
-        element:<AddParcel></AddParcel>
+        element:<UserPrivateRoute><AddParcel></AddParcel></UserPrivateRoute>
         
       },
-      {
-      
-        path: '/parcel-Chart',
-        element:<ParcelChart></ParcelChart>
-        
-      },
+     
       {
       
         path: '/my-percels',

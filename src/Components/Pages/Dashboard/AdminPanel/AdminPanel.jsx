@@ -3,14 +3,14 @@ import { useContext } from "react";
 import { AuthContext } from "../../../AuthProvider/AuthProvider";
 
 const AdminPanel = () => {
-  const { logOut, user } = useContext(AuthContext); // এখানে user context থেকে ইউজার ইনফরমেশন পাবেন।
-  const navigate = useNavigate(); // রিডিরেক্ট করার জন্য navigate হুক
+  const { logOut, user } = useContext(AuthContext); 
+  const navigate = useNavigate(); 
 
-  // লগ আউট ফাংশন
+
   const handleSignOut = () => {
     logOut()
       .then(() => {
-        navigate("/"); // লগ আউট হলে হোম পেইজে রিডিরেক্ট
+        navigate("/"); 
       })
       .catch((error) => {
         console.error("Error during sign out:", error);
@@ -18,7 +18,7 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex bg-green-100">
       {/* Sidebar */}
       <div className="w-64 bg-gray-800 text-white p-6">
         <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
