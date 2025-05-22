@@ -1,8 +1,33 @@
-# React + Vite
+##  Features
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- RESTful API development
+- JSON Web Token (JWT) based Authentication & Authorization
+-  Role-based access control (User & Admin)
+- Admin can manage users and perform restricted actions and tracking & managing parcel status.
+- CRUD operations (Create, Read, Update, Delete)
+- CORS enabled for cross-origin requests
+- Environment-based configuration with dotenv
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  Tech Stack
+
+- **Node.js** – JavaScript runtime
+- **Express.js** – Web framework
+- **MongoDB** – NoSQL database
+- **JWT** – Secure user authentication
+- **Dotenv** – Manage environment variables
+- **Cors** – Cross-origin resource sharing
+
+
+### Prerequisites
+
+Before you begin, ensure you have installed:
+- Node.js
+- npm
+- MongoDB Atlas account or local MongoDB setup
+
+###  Installation
+1. Clone the repository:
+```bash
+git clone https://github.com/tahminaakterbristy/QuickGo-Server.git
+cd QuickGo-Server
