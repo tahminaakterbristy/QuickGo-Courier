@@ -1,4 +1,4 @@
-## LIve Link: https://subtle-klepon-8d52a6.netlify.app
+## LIve Link: https://quickgo-o.netlify.app
 ## Server Repository:
 https://github.com/tahminaakterbristy/QuickGo-Server
 
